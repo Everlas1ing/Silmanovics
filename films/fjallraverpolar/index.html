@@ -851,5 +851,41 @@ document.addEventListener('click',e=>{const a=e.target.closest('a');if(a?.closes
 // Keep the existing fields, button, typography and submit animation.
 document.addEventListener('submit',e=>{const form=e.target;if(!(form instanceof HTMLFormElement))return;if(!form.closest('[data-framer-name="Section - Contact"]')&&location.pathname!=='/contact')return;e.preventDefault();e.stopImmediatePropagation();form.action='https://formsubmit.co/'+C.email;form.method='POST';if(!form.querySelector('[name="_subject"]')){const field=document.createElement('input');field.type='hidden';field.name='_subject';field.value='New enquiry — SILMANOVICS';form.append(field);}HTMLFormElement.prototype.submit.call(form);},true);
 })();
-</script></body>
+</script>
+<script>
+(() => {
+  function replaceVideo() {
+    const isFilm = /\/films\/fjallraverpolar\/?$/.test(location.pathname);
+
+    const selector = isFilm
+      ? '.requested-video video'
+      : '.framer-m4jcb4 video';
+
+    document.querySelectorAll(selector).forEach(video => {
+      const iframe = document.createElement('iframe');
+      const params = isFilm
+        ? 'controls=1&playsinline=1&rel=0'
+        : 'controls=1&playsinline=1&rel=0';
+
+      iframe.src = 'https://www.youtube.com/embed/FL-p9bcz7x0?' + params;
+      iframe.title = 'Dronningstien';
+      iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.style.cssText = 'display:block;width:100%;height:100%;border:0';
+
+      video.pause();
+      video.replaceWith(iframe);
+    });
+  }
+
+  new MutationObserver(replaceVideo).observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  replaceVideo();
+})();
+</script>
+</body>
 </html>
